@@ -13,6 +13,12 @@ build:
 	@$(ECHO) "$(MAGENTA)*** Building Go code...$(OFF)"
 	@$(GO) build $(GOFLAGS) -o oasis-registry/oasis-registry ./oasis-registry
 
+# Build examples.
+build-examples:
+	@$(ECHO) "$(MAGENTA)*** Building examples...$(OFF)"
+	@cd examples/lookup && \
+		$(GO) build
+
 # Format code.
 fmt:
 	@$(ECHO) "$(CYAN)*** Running Go formatters...$(OFF)"
@@ -61,7 +67,7 @@ clean:
 
 # List of targets that are not actual files.
 .PHONY: \
-	all build \
+	all build build-examples \
 	fmt \
 	$(lint-targets) lint \
 	$(test-targets) test \
