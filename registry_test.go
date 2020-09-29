@@ -33,10 +33,18 @@ func TestEntityMetadata(t *testing.T) {
 		{"BadEmail2", EntityMetadata{Versioned: cbor.NewVersioned(1), Email: "Hello World <hello@world.org>"}, false},
 		{"BadEmail3", EntityMetadata{Versioned: cbor.NewVersioned(1), Email: "@world.org"}, false},
 		{"BadEmail4", EntityMetadata{Versioned: cbor.NewVersioned(1), Email: "hello@.org"}, false},
-		{"ValidKeybase", EntityMetadata{Versioned: cbor.NewVersioned(1), Keybase: "helloworld"}, true},
+		{"ValidKeybase", EntityMetadata{Versioned: cbor.NewVersioned(1), Keybase: "Hello_world42"}, true},
 		{"TooLongKeybase", EntityMetadata{Versioned: cbor.NewVersioned(1), Keybase: "tootootootootootootootootootoolong"}, false},
-		{"ValidTwitter", EntityMetadata{Versioned: cbor.NewVersioned(1), Twitter: "helloworld"}, true},
+		{"BadKeybase1", EntityMetadata{Versioned: cbor.NewVersioned(1), Keybase: "helloworld-"}, false},
+		{"BadKeybase2", EntityMetadata{Versioned: cbor.NewVersioned(1), Keybase: "https://keybase.io/hello"}, false},
+		{"BadKeybase3", EntityMetadata{Versioned: cbor.NewVersioned(1), Keybase: "foo-bar"}, false},
+		{"BadKeybase4", EntityMetadata{Versioned: cbor.NewVersioned(1), Keybase: "foo:bar"}, false},
+		{"ValidTwitter", EntityMetadata{Versioned: cbor.NewVersioned(1), Twitter: "Hello_world42"}, true},
 		{"TooLongTwitter", EntityMetadata{Versioned: cbor.NewVersioned(1), Twitter: "tootootootootootootootootootoolong"}, false},
+		{"BadTwitter1", EntityMetadata{Versioned: cbor.NewVersioned(1), Twitter: "helloworld-"}, false},
+		{"BadTwitter2", EntityMetadata{Versioned: cbor.NewVersioned(1), Twitter: "https://twitter.com/hello"}, false},
+		{"BadTwitter3", EntityMetadata{Versioned: cbor.NewVersioned(1), Twitter: "foo-bar"}, false},
+		{"BadTwitter4", EntityMetadata{Versioned: cbor.NewVersioned(1), Twitter: "foo:bar"}, false},
 	} {
 		err := tc.meta.ValidateBasic()
 		switch tc.valid {
