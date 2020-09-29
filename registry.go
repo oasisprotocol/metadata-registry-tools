@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"net/mail"
 	"net/url"
+	"regexp"
 
 	"github.com/oasisprotocol/oasis-core/go/common/cbor"
 	"github.com/oasisprotocol/oasis-core/go/common/crypto/signature"
@@ -44,6 +45,13 @@ const (
 	MinSupportedVersion = 1
 	// MaxSupportedVersion is the maximum supported entity metadata version.
 	MaxSupportedVersion = 1
+)
+
+var (
+	// TwitterHandleRegexp is the regular expression used for validating the Twitter field.
+	TwitterHandleRegexp = regexp.MustCompile(`^[A-Za-z0-9_]+$`)
+	// KeybaseHandleRegexp is the regular expression used for validating the Keybase field.
+	KeybaseHandleRegexp = regexp.MustCompile(`^[A-Za-z0-9_]+$`)
 )
 
 // Provider is the read-only registry provider interface.
@@ -141,10 +149,20 @@ func (e *EntityMetadata) ValidateBasic() error {
 	if len(e.Keybase) > MaxEntityKeybaseLength {
 		return fmt.Errorf("entity keybase handle too long (length: %d max: %d)", len(e.Keybase), MaxEntityKeybaseLength)
 	}
+	if len(e.Keybase) > 0 {
+		if !KeybaseHandleRegexp.MatchString(e.Keybase) {
+			return fmt.Errorf("entity keybase handle is malformed")
+		}
+	}
 
 	// Twitter.
 	if len(e.Twitter) > MaxEntityTwitterLength {
 		return fmt.Errorf("entity twitter handle too long (length: %d max: %d)", len(e.Twitter), MaxEntityTwitterLength)
+	}
+	if len(e.Twitter) > 0 {
+		if !TwitterHandleRegexp.MatchString(e.Twitter) {
+			return fmt.Errorf("entity twitter handle is malformed")
+		}
 	}
 
 	return nil
