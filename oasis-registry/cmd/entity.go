@@ -1,13 +1,18 @@
 package cmd
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
 
 	"github.com/oasisprotocol/oasis-core/go/common/crypto/signature"
+	signerFile "github.com/oasisprotocol/oasis-core/go/common/crypto/signature/signers/file"
+	signerPlugin "github.com/oasisprotocol/oasis-core/go/common/crypto/signature/signers/plugin"
 	"github.com/oasisprotocol/oasis-core/go/common/logging"
+	cmdCommon "github.com/oasisprotocol/oasis-core/go/oasis-node/cmd/common"
+	cmdFlags "github.com/oasisprotocol/oasis-core/go/oasis-node/cmd/common/flags"
 	cmdSigner "github.com/oasisprotocol/oasis-core/go/oasis-node/cmd/common/signer"
 	"github.com/spf13/cobra"
 	flag "github.com/spf13/pflag"
@@ -87,6 +92,23 @@ func doEntityCreate(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
+	// Show descriptor and ask for confirmation.
+	fmt.Printf("You are about to sign the following entity metadata descriptor:\n")
+	entity.PrettyPrint(context.Background(), "  ", os.Stdout)
+
+	switch cmdSigner.Backend() {
+	case signerFile.SignerName:
+		if !cmdFlags.AssumeYes() {
+			if !cmdCommon.GetUserConfirmation("\nAre you sure you want to continue? (y)es/(n)o: ") {
+				os.Exit(1)
+			}
+		}
+	case signerPlugin.SignerName:
+		if cmdCommon.Isatty(os.Stdin.Fd()) {
+			fmt.Println("\nYou may need to review the transaction on your device if you use a hardware-based signer plugin...")
+		}
+	}
+
 	// Sign the descriptor.
 	signed, err := registry.SignEntityMetadata(signer, &entity)
 	if err != nil {
@@ -109,6 +131,7 @@ func doEntityCreate(cmd *cobra.Command, args []string) {
 func init() {
 	entityFlags.AddFlagSet(cmdSigner.Flags)
 	entityFlags.AddFlagSet(cmdSigner.CLIFlags)
+	entityFlags.AddFlagSet(cmdFlags.AssumeYesFlag)
 	entityCreateCmd.Flags().AddFlagSet(entityFlags)
 
 	// Register all of the sub-commands.
