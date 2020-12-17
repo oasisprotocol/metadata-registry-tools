@@ -19,6 +19,11 @@ build-examples:
 	@cd examples/lookup && \
 		$(GO) build
 
+# Generate test vectors.
+gen_vectors:
+	@$(ECHO) "$(MAGENTA)*** Generating test vectors ...$(OFF)"
+	@$(GO) run ./$@
+
 # Format code.
 fmt:
 	@$(ECHO) "$(CYAN)*** Running Go formatters...$(OFF)"
@@ -68,6 +73,7 @@ clean:
 # List of targets that are not actual files.
 .PHONY: \
 	all build build-examples \
+	gen_vectors \
 	fmt \
 	$(lint-targets) lint \
 	$(test-targets) test \
