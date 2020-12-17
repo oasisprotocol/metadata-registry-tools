@@ -15,6 +15,7 @@ import (
 
 	"github.com/oasisprotocol/oasis-core/go/common/cbor"
 	"github.com/oasisprotocol/oasis-core/go/common/crypto/signature"
+	"github.com/oasisprotocol/oasis-core/go/common/prettyprint"
 )
 
 var (
@@ -71,6 +72,8 @@ type Provider interface {
 
 // EntityMetadataSignatureContext is the domain separation context used for entity metadata.
 var EntityMetadataSignatureContext = signature.NewContext("oasis-metadata-registry: entity")
+
+var _ prettyprint.PrettyPrinter = (*EntityMetadata)(nil)
 
 // EntityMetadata contains metadata about an entity.
 type EntityMetadata struct {
@@ -197,6 +200,24 @@ func (e *EntityMetadata) Load(id signature.PublicKey, r io.Reader) error {
 		return fmt.Errorf("%w: failed to validate entity metadata: %s", ErrCorruptedRegistry, err)
 	}
 	return nil
+}
+
+// PrettyPrint writes a pretty-printed representation of EntityMetadata to the
+// given writer.
+func (e *EntityMetadata) PrettyPrint(ctx context.Context, prefix string, w io.Writer) {
+	fmt.Fprintf(w, "%sVersion: %d\n", prefix, e.V)
+	fmt.Fprintf(w, "%sSerial:  %d\n", prefix, e.Serial)
+	fmt.Fprintf(w, "%sName:    %s\n", prefix, e.Name)
+	fmt.Fprintf(w, "%sURL:     %s\n", prefix, e.URL)
+	fmt.Fprintf(w, "%sEmail:   %s\n", prefix, e.Email)
+	fmt.Fprintf(w, "%sKeybase: %s\n", prefix, e.Keybase)
+	fmt.Fprintf(w, "%sTwitter: %s\n", prefix, e.Twitter)
+}
+
+// PrettyType returns a representation of EntityMetadata that can be used for
+// pretty printing.
+func (e EntityMetadata) PrettyType() (interface{}, error) {
+	return e, nil
 }
 
 // SignedEntityMetadata is a signed entity metadata statement.
