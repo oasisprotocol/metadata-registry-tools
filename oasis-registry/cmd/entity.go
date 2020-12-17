@@ -26,10 +26,10 @@ var (
 		Short: "entity-related subcommands",
 	}
 
-	entityCreateCmd = &cobra.Command{
+	entityUpdateCmd = &cobra.Command{
 		Use:   "update",
-		Short: "updates an entity in the registry",
-		Run:   doEntityCreate,
+		Short: "update (or create) an entity in the registry",
+		Run:   doEntityUpdate,
 	}
 
 	entityFlags = flag.NewFlagSet("", flag.ContinueOnError)
@@ -37,7 +37,7 @@ var (
 	entityLogger = logging.GetLogger("cmd/entity")
 )
 
-func doEntityCreate(cmd *cobra.Command, args []string) {
+func doEntityUpdate(cmd *cobra.Command, args []string) {
 	if len(args) != 1 {
 		entityLogger.Error("expected a single argument")
 		os.Exit(1)
@@ -132,8 +132,8 @@ func init() {
 	entityFlags.AddFlagSet(cmdSigner.Flags)
 	entityFlags.AddFlagSet(cmdSigner.CLIFlags)
 	entityFlags.AddFlagSet(cmdFlags.AssumeYesFlag)
-	entityCreateCmd.Flags().AddFlagSet(entityFlags)
+	entityUpdateCmd.Flags().AddFlagSet(entityFlags)
 
 	// Register all of the sub-commands.
-	entityCmd.AddCommand(entityCreateCmd)
+	entityCmd.AddCommand(entityUpdateCmd)
 }
