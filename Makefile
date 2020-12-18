@@ -25,17 +25,29 @@ gen_vectors:
 	@$(GO) run ./$@
 
 # Format code.
-fmt:
+fmt-targets := fmt-go fmt-sh
+
+fmt-go:
 	@$(ECHO) "$(CYAN)*** Running Go formatters...$(OFF)"
 	@gofumpt -s -w .
 	@gofumports -w -local github.com/oasisprotocol/metadata-registry-tools .
 
+fmt-sh:
+	@$(ECHO) "$(CYAN)*** Running Shell formatters...$(OFF)"
+	@shfmt -l -w .
+
+fmt: $(fmt-targets)
+
 # Lint code, commits and documentation.
-lint-targets := lint-go lint-docs lint-git lint-go-mod-tidy
+lint-targets := lint-go lint-sh lint-docs lint-git lint-go-mod-tidy
 
 lint-go:
 	@$(ECHO) "$(CYAN)*** Running Go linters...$(OFF)"
 	@env -u GOPATH golangci-lint run
+
+lint-sh:
+	@$(ECHO) "$(CYAN)*** Running Shell linters...$(OFF)"
+	@shfmt -d .
 
 lint-git:
 	@$(ECHO) "$(CYAN)*** Runnint gitlint...$(OFF)"
@@ -74,7 +86,7 @@ clean:
 .PHONY: \
 	all build build-examples \
 	gen_vectors \
-	fmt \
+	$(fmt-targets) fmt \
 	$(lint-targets) lint \
 	$(test-targets) test \
 	clean
