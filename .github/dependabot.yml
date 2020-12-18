@@ -1,0 +1,38 @@
+version: 2
+updates:
+
+  # Manage Github Actions versions.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+      # Check for updates at 7am UTC.
+      time: "07:00"
+    commit-message:
+      prefix: "ci:"
+    labels:
+      - c:deps
+      - c:testing
+
+  # Manage Go package versions.
+  - package-ecosystem: gomod
+    directory: /
+    schedule:
+      interval: daily
+      # Check for updates at 7am UTC.
+      time: "07:00"
+    commit-message:
+      prefix: "go:"
+    labels:
+      - c:deps
+  - package-ecosystem: gomod
+    directory: /examples/lookup
+    schedule:
+      interval: daily
+      # Check for updates at 7am UTC.
+      time: "07:00"
+    commit-message:
+      prefix: "examples:"
+    labels:
+      - c:deps
+      - c:examples
