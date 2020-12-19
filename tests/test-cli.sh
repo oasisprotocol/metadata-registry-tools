@@ -21,6 +21,7 @@ ${OASIS_REGISTRY} verify
 
 # Create new entity metadata.
 ${OASIS_REGISTRY} entity update \
+	--assume_yes \
 	--signer.dir ${FIXTURES_DIR}/entity-1 \
 	${FIXTURES_DIR}/entity-1/metadata.json
 
@@ -29,6 +30,7 @@ ${OASIS_REGISTRY} verify
 
 # Create some more entities.
 ${OASIS_REGISTRY} entity update \
+	--assume_yes \
 	--signer.dir ${FIXTURES_DIR}/entity-2 \
 	${FIXTURES_DIR}/entity-2/metadata.json
 
@@ -44,8 +46,9 @@ cd fork-2
 
 # Update the first entity metadata.
 ${OASIS_REGISTRY} entity update \
-    --signer.dir ${FIXTURES_DIR}/entity-1 \
-    ${FIXTURES_DIR}/entity-1/update.json
+	--assume_yes \
+	--signer.dir ${FIXTURES_DIR}/entity-1 \
+	${FIXTURES_DIR}/entity-1/update.json
 
 # Verify registry integrity.
 ${OASIS_REGISTRY} verify
@@ -74,13 +77,15 @@ cd fork-4
 
 # Create new entity metadata.
 ${OASIS_REGISTRY} entity update \
-    --signer.dir ${FIXTURES_DIR}/entity-1 \
-    ${FIXTURES_DIR}/entity-1/update-bad.json
+	--assume_yes \
+	--signer.dir ${FIXTURES_DIR}/entity-1 \
+	${FIXTURES_DIR}/entity-1/update-bad.json
 
 # Create some more entities.
 ${OASIS_REGISTRY} entity update \
-    --signer.dir ${FIXTURES_DIR}/entity-2 \
-    ${FIXTURES_DIR}/entity-2/metadata.json
+	--assume_yes \
+	--signer.dir ${FIXTURES_DIR}/entity-2 \
+	${FIXTURES_DIR}/entity-2/metadata.json
 
 # Verify registry integrity (update verification should fail).
 ${OASIS_REGISTRY} verify

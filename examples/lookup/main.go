@@ -20,10 +20,10 @@ func main() {
 
 	ctx := context.Background()
 
-	// Get a list of all entities in the registy.
+	// Get a list of all entities in the registry.
 	entities, err := gp.GetEntities(ctx)
 	if err != nil {
-		fmt.Printf("Failed to get a list of entities in registy: %s\n", err)
+		fmt.Printf("Failed to get a list of entities in registry: %s\n", err)
 		return
 	}
 

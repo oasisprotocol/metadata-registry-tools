@@ -13,6 +13,10 @@ on:
     branches:
       - master
 
+# Global environment variables.
+env:
+  CURL_CMD: curl --proto =https --tlsv1.2 --location --silent --show-error --fail
+
 jobs:
   lint:
     # NOTE: This name appears in GitHub's Checks API.
@@ -36,10 +40,20 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
-      - name: Set up Go 1.14
+      - name: Set up Go 1.15
         uses: actions/setup-go@v1
         with:
-          go-version: "1.14.x"
+          go-version: "1.15.x"
+      - name: Install shfmt
+        run: |
+          cd $(mktemp --directory /tmp/shfmt.XXXXX)
+          ${CURL_CMD} ${SHFMT_URL_PREFIX}/v${SHFMT_VERSION}/shfmt_v${SHFMT_VERSION}_linux_amd64 \
+            --output shfmt
+          chmod +x shfmt
+          sudo mv shfmt /usr/local/bin
+        env:
+          SHFMT_URL_PREFIX: https://github.com/mvdan/sh/releases/download/
+          SHFMT_VERSION: 3.2.1
       - name: Install gitlint
         run: |
           python -m pip install gitlint
@@ -49,6 +63,11 @@ jobs:
       - name: Lint documentation
         run: |
           make lint-docs
+        # Always run this step so that all linting errors can be seen at once.
+        if: always()
+      - name: Lint Shell code
+        run: |
+          make lint-sh
         # Always run this step so that all linting errors can be seen at once.
         if: always()
       - name: Lint Go code
