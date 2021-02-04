@@ -80,7 +80,7 @@ type EntityMetadata struct {
 	cbor.Versioned
 
 	// Serial is the serial number of the entity metadata statement.
-	Serial uint64 `json:"serial"`
+	Serial int64 `json:"serial"`
 
 	// Name is the entity name.
 	Name string `json:"name,omitempty"`
