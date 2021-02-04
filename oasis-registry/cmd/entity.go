@@ -62,12 +62,12 @@ func doEntityUpdate(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
-	if err = entity.ValidateBasic(); err != nil {
-		entityLogger.Error("provided entity metadata is invalid",
-			"err", err,
-		)
-		os.Exit(1)
-	}
+	// if err = entity.ValidateBasic(); err != nil {
+	// 	entityLogger.Error("provided entity metadata is invalid",
+	// 		"err", err,
+	// 	)
+	// 	os.Exit(1)
+	// }
 
 	// Get the signer.
 	signerDir, err := cmdSigner.CLIDirOrPwd()
