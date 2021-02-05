@@ -1,0 +1,9 @@
+{
+  "v": 1,
+  "serial": 4,
+  "name": "This is some very long entity name, but valid (50)",
+  "url": "https://my.entity/url/this/is/a/valid/very/long/url/of/length/64",
+  "email": "along.valid.email@address.32.com",
+  "keybase": "aLongButValidKeybaseHandleWith32",
+  "twitter": "aLongButValidTwitterHandleWith32"
+}

@@ -65,7 +65,7 @@ lint-go-mod-tidy:
 lint: $(lint-targets)
 
 # Test.
-test-targets := test-unit test-cli
+test-targets := test-unit test-cli test-cli-ledger
 
 test-unit:
 	@$(ECHO) "$(CYAN)*** Running unit tests...$(OFF)"
@@ -74,6 +74,15 @@ test-unit:
 test-cli: build
 	@$(ECHO) "$(CYAN)*** Running CLI tests...$(OFF)"
 	@./tests/test-cli.sh
+
+test-cli-ledger: export LEDGER_SIGNER_PATH ?= ""
+test-cli-ledger: build
+	@if [[ ! -z "$(LEDGER_SIGNER_PATH)" ]]; then \
+		$(ECHO) "$(CYAN)*** Running CLI tests with Ledger...$(OFF)"; \
+		./tests/test-cli-ledger.sh; \
+	else \
+		$(ECHO) "$(CYAN)*** Skipping CLI tests with Ledger since LEDGER_SIGNER_PATH is not defined.$(OFF)"; \
+	fi
 
 test: $(test-targets)
 

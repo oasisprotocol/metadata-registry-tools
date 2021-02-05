@@ -1,0 +1,9 @@
+{
+  "v": 1,
+  "serial": 5,
+  "name": "This is some tooooooooooooooo long entity name (51)",
+  "url": "https://my.entity/url",
+  "email": "my@entity.org",
+  "keybase": "my_keybase_handle",
+  "twitter": "my_twitter_handle"
+}
