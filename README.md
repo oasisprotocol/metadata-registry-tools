@@ -27,7 +27,8 @@ make build
 _NOTE: Currently, you will need to build the `oasis-registry` tool yourself._
 
 **NOTE: Support for signing entity metadata statements with the Ledger-based
-signer is in development and not available yet.**
+signer is available in [Oasis app 1.9.0+ releases] which will soon be available
+via Ledger Live's Manager.**
 
 To sign an entity metadata statement, e.g.
 
@@ -88,6 +89,7 @@ public key, e.g.
 
 [oasis-cli-flags]:
   https://docs.oasis.dev/general/manage-tokens/oasis-cli-tools/setup#signer-flags
+[Oasis app 1.9.0+ releases]: https://github.com/Zondax/ledger-oasis/releases
 
 ### Contributing Entity Metadata Statement to Production Oasis Metadata Registry
 
