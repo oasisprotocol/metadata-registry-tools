@@ -73,7 +73,7 @@ test-unit:
 
 test-cli: build
 	@$(ECHO) "$(CYAN)*** Running CLI tests...$(OFF)"
-	@./tests/test-cli.sh
+	@./tests/test-cli-general.sh
 
 test: $(test-targets)
 
