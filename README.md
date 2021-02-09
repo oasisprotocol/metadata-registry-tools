@@ -87,9 +87,11 @@ It will store the signed entity metadata statement to the
 public key, e.g.
 `918cfe60b903e9d2c3003eaa78997f4fd95d66597f20cea8693e447b6637604c.json`.
 
+<!-- markdownlint-disable line-length -->
 [oasis-cli-flags]:
   https://docs.oasis.dev/general/manage-tokens/oasis-cli-tools/setup#signer-flags
 [Oasis app 1.9.0+ releases]: https://github.com/Zondax/ledger-oasis/releases
+<!-- markdownlint-enable line-length -->
 
 ### Contributing Entity Metadata Statement to Production Oasis Metadata Registry
 
