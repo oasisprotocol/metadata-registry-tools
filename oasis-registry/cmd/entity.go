@@ -125,7 +125,7 @@ func doEntityUpdate(cmd *cobra.Command, args []string) {
 	fmt.Printf("Updated entity %s\n", signer.Public())
 }
 
-func init() {
+func init() { //nolint:gochecknoinits
 	entityFlags.Bool(cfgSkipValidation, false, "skip metadata validation")
 	entityFlags.AddFlagSet(cmdSigner.Flags)
 	entityFlags.AddFlagSet(cmdSigner.CLIFlags)

@@ -18,7 +18,11 @@ func main() {
 	chainContext.FromBytes([]byte("metadata registry test vectors"))
 	signature.SetChainContext(chainContext.String())
 
-	var vectors []testvectors.EntityMetadataTestVector
+	vectors := make(
+		[]testvectors.EntityMetadataTestVector,
+		0,
+		len(testcases.EntityMetadataBasicVersionAndSize)+len(testcases.EntityMetadataExtendedVersionAndSize),
+	)
 
 	for _, tc := range testcases.EntityMetadataBasicVersionAndSize {
 		vec := testvectors.MakeEntityMetadataTestVector(

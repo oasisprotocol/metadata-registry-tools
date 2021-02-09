@@ -234,7 +234,7 @@ type SignedEntityMetadata struct {
 }
 
 // Open first verifies the blob signature and then unmarshals the blob.
-func (s *SignedEntityMetadata) Open(meta *EntityMetadata) error { // nolint: interfacer
+func (s *SignedEntityMetadata) Open(meta *EntityMetadata) error {
 	return s.Signed.Open(EntityMetadataSignatureContext, meta)
 }
 

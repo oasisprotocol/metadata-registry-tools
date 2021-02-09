@@ -100,7 +100,7 @@ func doVerify(cmd *cobra.Command, args []string) {
 	}
 }
 
-func init() {
+func init() { //nolint:gochecknoinits
 	verifyFlags.String(cfgUpdate, "", "verify update from a previous registry snapshot")
 
 	_ = viper.BindPFlags(verifyFlags)
