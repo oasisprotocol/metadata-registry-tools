@@ -103,23 +103,13 @@ func (e *EntityMetadata) Equal(other *EntityMetadata) bool {
 	return bytes.Equal(cbor.Marshal(e), cbor.Marshal(other))
 }
 
-// ValidateBasic performs basic validity checks on the entity metadata.
-func (e *EntityMetadata) ValidateBasic() error {
-	if e.Versioned.V < MinSupportedVersion || e.Versioned.V > MaxSupportedVersion {
-		return fmt.Errorf("unsupported entity metadata version: %d", e.Versioned.V)
+// validateURL checks validity of the given URL.
+func validateURL(u string) error {
+	if len(u) > MaxEntityURLLength {
+		return fmt.Errorf("entity URL too long (length: %d max: %d)", len(u), MaxEntityURLLength)
 	}
-
-	// Name.
-	if len(e.Name) > MaxEntityNameLength {
-		return fmt.Errorf("entity name too long (length: %d max: %d)", len(e.Name), MaxEntityNameLength)
-	}
-
-	// URL.
-	if len(e.URL) > MaxEntityURLLength {
-		return fmt.Errorf("entity URL too long (length: %d max: %d)", len(e.URL), MaxEntityURLLength)
-	}
-	if len(e.URL) > 0 {
-		parsedURL, err := url.Parse(e.URL)
+	if len(u) > 0 {
+		parsedURL, err := url.Parse(u)
 		if err != nil {
 			return fmt.Errorf("entity URL is malformed: %w", err)
 		}
@@ -132,6 +122,24 @@ func (e *EntityMetadata) ValidateBasic() error {
 		if len(parsedURL.RawQuery) != 0 || len(parsedURL.Fragment) != 0 {
 			return fmt.Errorf("entity URL must not contain query values or fragments")
 		}
+	}
+	return nil
+}
+
+// ValidateBasic performs basic validity checks on the entity metadata.
+func (e *EntityMetadata) ValidateBasic() error {
+	if e.Versioned.V < MinSupportedVersion || e.Versioned.V > MaxSupportedVersion {
+		return fmt.Errorf("unsupported entity metadata version: %d", e.Versioned.V)
+	}
+
+	// Name.
+	if len(e.Name) > MaxEntityNameLength {
+		return fmt.Errorf("entity name too long (length: %d max: %d)", len(e.Name), MaxEntityNameLength)
+	}
+
+	// URL.
+	if err := validateURL(e.URL); err != nil {
+		return err
 	}
 
 	// Email.
