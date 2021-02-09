@@ -65,7 +65,7 @@ lint-go-mod-tidy:
 lint: $(lint-targets)
 
 # Test.
-test-targets := test-unit test-cli
+test-targets := test-unit test-cli test-cli-ledger
 
 test-unit:
 	@$(ECHO) "$(CYAN)*** Running unit tests...$(OFF)"
@@ -74,6 +74,16 @@ test-unit:
 test-cli: build
 	@$(ECHO) "$(CYAN)*** Running CLI tests...$(OFF)"
 	@./tests/test-cli-general.sh
+	@unset LEDGER_SIGNER_PATH; ./tests/test-cli-metadata.sh
+
+test-cli-ledger: build
+	@if [[ -n "$(LEDGER_SIGNER_PATH)" ]]; then \
+		$(ECHO) "$(CYAN)*** Running CLI tests with Ledger signer...$(OFF)"; \
+		$(ECHO) "$(RED)*** Make sure your Ledger device is connected and the Oasis app is open.$(OFF)"; \
+		./tests/test-cli-metadata.sh; \
+	else \
+		$(ECHO) "$(CYAN)*** Skipping CLI tests with Ledger signer since LEDGER_SIGNER_PATH is not defined.$(OFF)"; \
+	fi
 
 test: $(test-targets)
 
