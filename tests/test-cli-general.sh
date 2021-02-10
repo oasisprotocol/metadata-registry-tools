@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# CLI tests for testing general registry functionality.
+
 set -euxo pipefail
 
 OASIS_REGISTRY=${PWD}/oasis-registry/oasis-registry

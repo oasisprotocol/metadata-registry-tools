@@ -7,6 +7,10 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/spf13/cobra"
+	flag "github.com/spf13/pflag"
+	"github.com/spf13/viper"
+
 	"github.com/oasisprotocol/oasis-core/go/common/crypto/signature"
 	signerFile "github.com/oasisprotocol/oasis-core/go/common/crypto/signature/signers/file"
 	signerPlugin "github.com/oasisprotocol/oasis-core/go/common/crypto/signature/signers/plugin"
@@ -14,11 +18,13 @@ import (
 	cmdCommon "github.com/oasisprotocol/oasis-core/go/oasis-node/cmd/common"
 	cmdFlags "github.com/oasisprotocol/oasis-core/go/oasis-node/cmd/common/flags"
 	cmdSigner "github.com/oasisprotocol/oasis-core/go/oasis-node/cmd/common/signer"
-	"github.com/spf13/cobra"
-	flag "github.com/spf13/pflag"
 
 	registry "github.com/oasisprotocol/metadata-registry-tools"
 )
+
+// cfgSkipValidation configures whether the validation of the provided entity
+// metadata should be skipped or not.
+const cfgSkipValidation = "skip-validation"
 
 var (
 	entityCmd = &cobra.Command{
@@ -62,11 +68,13 @@ func doEntityUpdate(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
-	if err = entity.ValidateBasic(); err != nil {
-		entityLogger.Error("provided entity metadata is invalid",
-			"err", err,
-		)
-		os.Exit(1)
+	if !viper.GetBool(cfgSkipValidation) {
+		if err = entity.ValidateBasic(); err != nil {
+			entityLogger.Error("provided entity metadata is invalid",
+				"err", err,
+			)
+			os.Exit(1)
+		}
 	}
 
 	// Get the signer.
@@ -129,9 +137,12 @@ func doEntityUpdate(cmd *cobra.Command, args []string) {
 }
 
 func init() {
+	entityFlags.Bool(cfgSkipValidation, false, "skip metadata validation")
 	entityFlags.AddFlagSet(cmdSigner.Flags)
 	entityFlags.AddFlagSet(cmdSigner.CLIFlags)
 	entityFlags.AddFlagSet(cmdFlags.AssumeYesFlag)
+	_ = viper.BindPFlags(entityFlags)
+
 	entityUpdateCmd.Flags().AddFlagSet(entityFlags)
 
 	// Register all of the sub-commands.

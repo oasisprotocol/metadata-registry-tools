@@ -27,7 +27,8 @@ make build
 _NOTE: Currently, you will need to build the `oasis-registry` tool yourself._
 
 **NOTE: Support for signing entity metadata statements with the Ledger-based
-signer is in development and not available yet.**
+signer is available in [Oasis app 1.9.0+ releases] which will soon be available
+via Ledger Live's Manager.**
 
 To sign an entity metadata statement, e.g.
 
@@ -88,6 +89,7 @@ public key, e.g.
 
 [oasis-cli-flags]:
   https://docs.oasis.dev/general/manage-tokens/oasis-cli-tools/setup#signer-flags
+[Oasis app 1.9.0+ releases]: https://github.com/Zondax/ledger-oasis/releases
 
 ### Contributing Entity Metadata Statement to Production Oasis Metadata Registry
 
@@ -145,3 +147,42 @@ To generate the entity metadata test vectors, run:
 ```sh
 make gen_vectors
 ```
+
+### Tests
+
+To run all tests, run:
+
+```sh
+make test
+```
+
+This will run all Make's test targets which include Go unit tests and CLI tests.
+
+_NOTE: CLI tests with Ledger signer will be skipped unless the
+`LEDGER_SIGNER_PATH` is set and exported._
+
+#### Tests with Ledger-based signer
+
+To run CLI tests with Ledger-based signer, you need to follow these steps:
+
+1. Download the latest [Oasis Core Ledger] release from
+   <https://github.com/oasisprotocol/oasis-core-ledger/releases>.
+
+2. Extract the `oasis_core_ledger_<VERSION>_<OS>_amd64.tar.gz` tarball.
+
+3. Set `LEDGER_SIGNER_PATH` environment variable to the path of the extracted
+   `ledger-signer` binary and export it, e.g.:
+
+   ```sh
+   export LEDGER_SIGNER_PATH="/path/to/oasis_core_ledger_1.2.0_linux_amd64/ledger-signer"
+   ```
+
+4. Connect your Ledger device and make sure the Oasis app is open.
+
+5. Run tests with:
+
+   ```sh
+   make test-cli-ledger
+   ```
+
+[Oasis Core Ledger]: https://docs.oasis.dev/oasis-core-ledger/
