@@ -81,6 +81,20 @@ var (
 	}
 )
 
+// validBounds returns true iff all the given entity metadata fields are within
+// each field's valid bounds.
+func validBounds(version uint16, name, url, email, keybase, twitter string) bool {
+	if version < registry.MinSupportedVersion || version > registry.MaxSupportedVersion ||
+		len(name) > registry.MaxEntityNameLength ||
+		len(url) > registry.MaxEntityURLLength ||
+		len(email) > registry.MaxEntityEmailLength ||
+		len(keybase) > registry.MaxEntityKeybaseLength ||
+		len(twitter) > registry.MaxEntityTwitterLength {
+		return false
+	}
+	return true
+}
+
 func init() {
 	// Generate test cases for entity metadata by permutating through all field
 	// value lists below.
@@ -110,19 +124,10 @@ func init() {
 									Keybase:   keybase,
 									Twitter:   twitter,
 								}
-								valid := true
-								if v < registry.MinSupportedVersion || v > registry.MaxSupportedVersion ||
-									len(name) > registry.MaxEntityNameLength ||
-									len(url) > registry.MaxEntityURLLength ||
-									len(email) > registry.MaxEntityEmailLength ||
-									len(keybase) > registry.MaxEntityKeybaseLength ||
-									len(twitter) > registry.MaxEntityTwitterLength {
-									valid = false
-								}
 								tc := EntityMetadataTestCase{
 									Name:       "ExtendedVersionAndSizeChecks: " + strconv.Itoa(count),
 									EntityMeta: meta,
-									Valid:      valid,
+									Valid:      validBounds(v, name, url, email, keybase, twitter),
 								}
 								EntityMetadataExtendedVersionAndSize = append(
 									EntityMetadataExtendedVersionAndSize, tc,
