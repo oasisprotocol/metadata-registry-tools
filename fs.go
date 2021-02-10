@@ -105,7 +105,10 @@ func (p *fsProvider) GetEntities(ctx context.Context) (map[signature.PublicKey]*
 		}
 
 		if fi.Size() > MaxStatementSize {
-			return nil, fmt.Errorf("%w: entity: statement too big (size: %d max: %d): %s", ErrCorruptedRegistry, fi.Size(), MaxStatementSize, fi.Name())
+			return nil, fmt.Errorf(
+				"%w: entity: statement too big (size: %d max: %d): %s",
+				ErrCorruptedRegistry, fi.Size(), MaxStatementSize, fi.Name(),
+			)
 		}
 
 		var result *EntityMetadata
