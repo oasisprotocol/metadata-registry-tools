@@ -43,7 +43,7 @@ jobs:
       - name: Set up Go 1.15
         uses: actions/setup-go@v1
         with:
-          go-version: "1.15.x"
+          go-version: "1.17.x"
       - name: Install shfmt
         run: |
           cd $(mktemp --directory /tmp/shfmt.XXXXX)
@@ -74,10 +74,10 @@ jobs:
         # NOTE: Using the official golangci-lint GitHub Action should give
         # better performance than manually installing golangci-lint and running
         # 'make lint-git'.
-        uses: golangci/golangci-lint-action@v2
+        uses: golangci/golangci-lint-action@v3.1.0
         with:
           # NOTE: The version must be specified without the patch version.
-          version: v1.28
+          version: v1.40
         # Always run this step so that all linting errors can be seen at once.
         if: always()
       - name: Check go mod tidy
