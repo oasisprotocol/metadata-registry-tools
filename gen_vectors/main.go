@@ -25,6 +25,7 @@ func main() {
 	)
 
 	for _, tc := range testcases.EntityMetadataBasicVersionAndSize {
+		tc := tc
 		vec := testvectors.MakeEntityMetadataTestVector(
 			"EntityMetadataBasicVersionAndSize", &tc.EntityMeta, tc.Valid,
 		)
@@ -32,6 +33,7 @@ func main() {
 	}
 
 	for _, tc := range testcases.EntityMetadataExtendedVersionAndSize {
+		tc := tc
 		vec := testvectors.MakeEntityMetadataTestVector(
 			"EntityMetadataExtendedVersionAndSize", &tc.EntityMeta, tc.Valid,
 		)
