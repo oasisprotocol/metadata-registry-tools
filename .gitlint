@@ -12,10 +12,10 @@ ignore=body-is-missing
 contrib=contrib-disallow-cleanup-commits
 
 [title-max-length]
-line-length=72
+line-length=100
 
 [body-max-line-length]
-line-length=80
+line-length=120
 
 [body-min-length]
 min-length=20
