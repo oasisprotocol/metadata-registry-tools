@@ -27,10 +27,10 @@ jobs:
           # For more details, see:
           # https://github.com/actions/checkout/issues/299.
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: Set up Go 1.17
+      - name: Set up Go 1.21
         uses: actions/setup-go@v1
         with:
-          go-version: "1.17.x"
+          go-version: "1.21.x"
       - name: Build code and examples
         run: |
           make build

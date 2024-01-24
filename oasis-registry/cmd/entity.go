@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -73,7 +72,7 @@ func doEntityUpdate(cmd *cobra.Command, args []string) {
 	p := newFsProvider()
 
 	// Open and parse the passed entity metadata file.
-	rawEntity, err := ioutil.ReadFile(args[0])
+	rawEntity, err := os.ReadFile(args[0])
 	if err != nil {
 		logErrorAndExit("failed to read entity descriptor", err)
 	}

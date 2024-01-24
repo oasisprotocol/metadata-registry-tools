@@ -44,7 +44,7 @@ func Execute() {
 	}
 }
 
-func init() { // nolint: gochecknoinits
+func init() { //nolint: gochecknoinits
 	logLevel := logging.LevelInfo
 	rootFlags.Var(&logLevel, cfgLogLevel, "log level")
 	_ = viper.BindPFlags(rootFlags)
