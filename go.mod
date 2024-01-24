@@ -1,6 +1,6 @@
 module github.com/oasisprotocol/metadata-registry-tools
 
-go 1.17
+go 1.21
 
 require (
 	github.com/go-git/go-billy/v5 v5.5.0

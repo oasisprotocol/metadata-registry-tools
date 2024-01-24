@@ -8,7 +8,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/mail"
 	"net/url"
 	"regexp"
@@ -181,7 +180,7 @@ func (e *EntityMetadata) ValidateBasic() error {
 
 // Load loads and verifies entity metadata from a given reader containing signed entity metadata.
 func (e *EntityMetadata) Load(id signature.PublicKey, r io.Reader) error {
-	b, err := ioutil.ReadAll(r)
+	b, err := io.ReadAll(r)
 	if err != nil {
 		return fmt.Errorf("%w: failed to read metadata: %s", ErrCorruptedRegistry, err)
 	}
