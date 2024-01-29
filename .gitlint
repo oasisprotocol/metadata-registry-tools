@@ -12,13 +12,18 @@ ignore=body-is-missing
 contrib=contrib-disallow-cleanup-commits
 
 [title-max-length]
-line-length=100
+line-length=72
 
 [body-max-line-length]
-line-length=120
+line-length=80
 
 [body-min-length]
 min-length=20
 
 [title-must-not-contain-word]
 words=wip
+
+[ignore-by-author-name]
+# Ignore specific line length rules for Dependabot commits.
+regex=dependabot
+ignore=title-max-length,body-max-line-length
