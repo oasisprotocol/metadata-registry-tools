@@ -7,7 +7,7 @@ require (
 	github.com/go-git/go-git/v5 v5.11.0
 	github.com/hashicorp/go-plugin v1.4.3
 	github.com/oasisprotocol/oasis-core/go v0.2201.2
-	github.com/spf13/cobra v1.3.0
+	github.com/spf13/cobra v1.8.0
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.10.1
 	github.com/stretchr/testify v1.9.0
@@ -36,7 +36,7 @@ require (
 	github.com/hashicorp/go-hclog v1.1.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb // indirect
-	github.com/inconshreveable/mousetrap v1.0.0 // indirect
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/ipfs/go-log/v2 v2.5.0 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
